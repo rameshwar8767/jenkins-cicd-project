@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // Replace with YOUR Docker Hub username
-        DOCKER_HUB_USER = 'your-dockerhub-username'
+        DOCKER_HUB_USER = 'rameshwarrm'
         IMAGE_NAME = 'jenkins-cicd-app'
         IMAGE_TAG = "v${BUILD_NUMBER}"
         CONTAINER_NAME = 'cicd-app-container'
@@ -36,11 +35,13 @@ pipeline {
 
         stage('🐳 Docker Build') {
             steps {
-                echo "=== Building Docker Image: ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} ==="
                 sh """
-                    docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} .
+                    docker build \
+                        --memory=400m \
+                        --memory-swap=800m \
+                        -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} .
                     docker tag ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} \
-                               ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
+                            ${DOCKER_HUB_USER}/${IMAGE_NAME}:latest
                 """
             }
         }
