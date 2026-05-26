@@ -89,7 +89,7 @@ pipeline {
             echo '❌ FAILED! Check logs above.'
         }
         always {
-            node {                               // ← THIS was the missing fix
+            script {
                 sh 'docker image prune -f || true'
             }
         }
